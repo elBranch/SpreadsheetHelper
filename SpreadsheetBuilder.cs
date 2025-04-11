@@ -12,12 +12,12 @@
 // <https://www.gnu.org/licenses/>.
 
 using System.Data;
-using ExcelHelper.Internal;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
+using SpreadsheetHelper.Internal;
 
-namespace ExcelHelper;
+namespace SpreadsheetHelper;
 
 /// <summary>
 ///     Builds an Excel spreadsheet for a <see cref="System.Data.DataTable" />.

@@ -14,7 +14,7 @@
 using System.Diagnostics;
 using NPOI.SS.UserModel;
 
-namespace ExcelHelper.Internal;
+namespace SpreadsheetHelper.Internal;
 
 /// <summary>
 ///     Represents a column in the Excel sheet, containing property name, column name, and order.

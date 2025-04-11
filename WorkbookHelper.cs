@@ -13,7 +13,7 @@
 
 using NPOI.SS.UserModel;
 
-namespace ExcelHelper;
+namespace SpreadsheetHelper;
 
 /// <summary>
 ///     Provides extension methods for saving Excel workbooks.

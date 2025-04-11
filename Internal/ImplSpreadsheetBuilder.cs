@@ -15,7 +15,7 @@ using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 
-namespace ExcelHelper.Internal;
+namespace SpreadsheetHelper.Internal;
 
 /// <summary>
 ///     Base class for spreadsheet builders, providing core functionality for managing the workbook and worksheet.

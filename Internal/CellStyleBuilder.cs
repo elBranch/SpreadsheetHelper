@@ -15,7 +15,7 @@ using NPOI.SS.UserModel;
 using HorizontalAlignment = NPOI.SS.UserModel.HorizontalAlignment;
 using VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment;
 
-namespace ExcelHelper.Internal;
+namespace SpreadsheetHelper.Internal;
 
 /// <summary>
 ///     Provides a fluent interface for building and configuring cell styles.

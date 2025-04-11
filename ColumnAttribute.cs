@@ -13,7 +13,7 @@
 
 using System.Diagnostics;
 
-namespace ExcelHelper;
+namespace SpreadsheetHelper;
 
 /// <summary>
 ///     Attribute used to specify the column name and order in an Excel sheet.

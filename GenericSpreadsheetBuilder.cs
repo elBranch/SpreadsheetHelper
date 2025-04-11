@@ -13,12 +13,12 @@
 
 using System.Linq.Expressions;
 using System.Reflection;
-using ExcelHelper.Internal;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
+using SpreadsheetHelper.Internal;
 
-namespace ExcelHelper;
+namespace SpreadsheetHelper;
 
 /// <summary>
 ///     Builds an Excel spreadsheet for a specific row type <typeparamref name="TRow" />.
