@@ -4,6 +4,14 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <Title>SpreadsheetHelper</Title>
+        <Authors>Will Branch</Authors>
+        <Description>A .NET library to simplify reading and writing Excel files using NPOI.</Description>
+        <PackageProjectUrl>https://github.com/elBranch/SpreadsheetHelper</PackageProjectUrl>
+        <PackageLicenseUrl>https://raw.githubusercontent.com/elBranch/SpreadsheetHelper/refs/heads/main/COPYING</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/elBranch/SpreadsheetHelper.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>xlsx,xls,excel,spreadsheet</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
