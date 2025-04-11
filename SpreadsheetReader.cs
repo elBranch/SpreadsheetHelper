@@ -30,13 +30,40 @@ public class SpreadsheetReader
     /// </summary>
     /// <param name="filePath">The path to the Excel file.</param>
     /// <param name="sheetName">The name of the sheet to read from. If null, the active sheet is used.</param>
+    /// <param name="columnTypes">
+    ///     An optional action to specify the <see cref="Type" /> for the DataTable columns. The keys are the column names, and
+    ///     the values are the desired <see cref="Type" />; defaulting to <see cref="string" />.
+    /// </param>
+    /// <returns>A <see cref="System.Data.DataTable" /> containing the data from the Excel file.</returns>
+    /// <exception cref="SpreadsheetException">
+    ///     Thrown if the file extension is unsupported, the specified sheet does not exist, or the header row is missing.
+    /// </exception>
+    public static Task<DataTable> ReadFileAsync(string filePath,
+        string? sheetName = ImplSpreadsheetBuilder.SheetName, Action<Dictionary<string, Type>>? columnTypes = null)
+    {
+        var columnCellTypeMap = new Dictionary<string, Type>();
+        columnTypes?.Invoke(columnCellTypeMap);
+        return ReadFileAsync(filePath, sheetName, columnCellTypeMap);
+    }
+
+    /// <summary>
+    ///     Asynchronously reads data from an Excel file and returns it as a <see cref="System.Data.DataTable" />.
+    /// </summary>
+    /// <param name="filePath">The path to the Excel file.</param>
+    /// <param name="sheetName">The name of the sheet to read from. If null, the active sheet is used.</param>
+    /// <param name="columnTypes">
+    ///     An optional <see cref="Dictionary{TKey,TValue}" /> to specify the <see cref="Type" /> for the DataTable columns.
+    ///     The keys are the column names, and the values are the desired <see cref="Type" />; defaulting to
+    ///     <see cref="string" />.
+    /// </param>
     /// <returns>A <see cref="System.Data.DataTable" /> containing the data from the Excel file.</returns>
     /// <exception cref="SpreadsheetException">
     ///     Thrown if the file extension is unsupported, the specified sheet does not exist, or the header row is missing.
     /// </exception>
     public static async Task<DataTable> ReadFileAsync(string filePath,
-        string? sheetName = ImplSpreadsheetBuilder.SheetName)
+        string? sheetName = ImplSpreadsheetBuilder.SheetName, IDictionary<string, Type>? columnTypes = null)
     {
+        columnTypes ??= new Dictionary<string, Type>();
         var dataTable = new DataTable();
 
         // Open the Excel file for reading.
@@ -57,14 +84,14 @@ public class SpreadsheetReader
         if (headerRow == null) throw new SpreadsheetException("Header row is missing.");
 
         // Create header from the first row of the sheet, using the cell values as columns in the DataTable.
-        var firstRow = sheet.GetRow(sheet.FirstRowNum + 1);
-        for (var i = 0; i < headerRow.LastCellNum; i++)
+        for (var i = headerRow.FirstCellNum; i < headerRow.LastCellNum; i++)
         {
             var headerCell = headerRow.GetCell(i);
             if (headerCell == null || string.IsNullOrEmpty(headerCell.StringCellValue)) continue;
 
             var columnName = headerCell.StringCellValue.Trim();
-            dataTable.Columns.Add(columnName, GetColumnType(firstRow.Cells[i]));
+            dataTable.Columns.Add(columnName, columnTypes.TryGetValue(columnName, out var cellType) 
+                ? cellType : typeof(string));
         }
 
         // Create rows from the remaining rows of the sheet.
@@ -79,11 +106,12 @@ public class SpreadsheetReader
             {
                 var cell = sheetRow.GetCell(cellIndex);
                 if (cell is null) continue;
-
+                
                 var cellValue = GetCellValue(cell);
                 if (cellValue is null) continue;
-                
-                record[cellIndex] = cellValue;
+
+                var column = dataTable.Columns[cellIndex];
+                record[cellIndex] = Convert.ChangeType(cellValue, column.DataType);
             }
 
             dataTable.Rows.Add(record);
@@ -130,7 +158,7 @@ public class SpreadsheetReader
         var properties = typeof(TRow).GetProperties();
 
         // Read header row and match column names to property names (case-insensitive)
-        for (var i = 0; i < headerRow.LastCellNum; i++)
+        for (var i = headerRow.FirstCellNum; i < headerRow.LastCellNum; i++)
         {
             var headerCell = headerRow.GetCell(i);
             if (headerCell == null || string.IsNullOrEmpty(headerCell.StringCellValue)) continue;
@@ -182,41 +210,6 @@ public class SpreadsheetReader
         }
 
         return records;
-    }
-
-    /// <summary>
-    ///     Determines the corresponding C# type based on the provided Excel cell type.
-    /// </summary>
-    /// <param name="cell">The Excel cell to map to a C# type.</param>
-    /// <returns>The corresponding C# type.</returns>
-    private static Type GetColumnType(ICell cell)
-    {
-        var type = cell.CellType;
-        return type switch
-        {
-            CellType.Numeric when DateUtil.IsCellDateFormatted(cell) => typeof(DateTime),
-            CellType.Numeric => typeof(double),
-            CellType.Boolean => typeof(bool),
-            CellType.String => typeof(string),
-            CellType.Formula => TryGetNumericValue(cell),
-            CellType.Blank => typeof(string),
-            CellType.Error => typeof(string),
-            CellType.Unknown => typeof(string),
-            _ => typeof(string)
-        };
-        
-        // Helper function to try getting the numeric value from a formula cell.
-        Type TryGetNumericValue(ICell numericCell)
-        {
-            try
-            {
-                return typeof(double);
-            }
-            catch (Exception)
-            {
-                return typeof(string);
-            }
-        }
     }
 
     /// <summary>
