@@ -1,10 +1,10 @@
-﻿# ExcelHelper
+﻿# SpreadsheetHelper
 
 A .NET library to simplify reading and writing Excel files using NPOI.
 
 ## Overview
 
-ExcelHelper provides a streamlined way to interact with Excel files (.xlsx and .xls) in your .NET applications. It leverages the NPOI library to handle the complexities of the Excel file format, allowing you to focus on your data.
+SpreadsheetHelper provides a streamlined way to interact with Excel files (.xlsx and .xls) in your .NET applications. It leverages the NPOI library to handle the complexities of the Excel file format, allowing you to focus on your data.
 
 Key Features:
 
@@ -19,7 +19,7 @@ Key Features:
 ### Writing Excel Files
 #### From a List of Objects
 ```csharp
-using ExcelHelper;
+using SpreadsheetHelper;
 
 public class MyData
 {
@@ -50,7 +50,7 @@ builder.SetColumnStyle(x => x.Name, style => style.SetBold().Alignment(NPOI.SS.U
 
 #### From a `DataTable`
 ```csharp
-using ExcelHelper;
+using SpreadsheetHelper;
 using System.Data;
 
 // ...
@@ -71,7 +71,7 @@ builder.SetColumnStyle("Product", style => style.SetBold())
 ### Reading Excel Files
 #### To a `DataTable`
 ```csharp
-using ExcelHelper;
+using SpreadsheetHelper;
 using System.Data;
 
 // ...
@@ -86,7 +86,7 @@ foreach (DataRow row in dataTable.Rows)
 
 #### To a List of Objects
 ```csharp
-using ExcelHelper;
+using SpreadsheetHelper;
 
 public class MyData
 {
