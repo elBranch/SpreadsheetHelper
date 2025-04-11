@@ -8,17 +8,14 @@
         <Authors>Will Branch</Authors>
         <Description>A .NET library to simplify reading and writing Excel files using NPOI.</Description>
         <PackageProjectUrl>https://github.com/elBranch/SpreadsheetHelper</PackageProjectUrl>
-        <PackageLicenseUrl>https://raw.githubusercontent.com/elBranch/SpreadsheetHelper/refs/heads/main/COPYING</PackageLicenseUrl>
+        <PackageLicense>https://raw.githubusercontent.com/elBranch/SpreadsheetHelper/refs/heads/main/COPYING</PackageLicense>
         <RepositoryUrl>https://github.com/elBranch/SpreadsheetHelper.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>xlsx,xls,excel,spreadsheet</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="GitVersion.MsBuild" Version="6.2.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        <PackageReference Include="GitVersion.MsBuild" Version="6.2.0" PrivateAssets="All"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="[8.0.3, 9)"/>
         <PackageReference Include="NPOI" Version="2.7.3"/>
     </ItemGroup>
