@@ -22,8 +22,6 @@ namespace SpreadsheetHelper;
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 public sealed class ColumnAttribute : Attribute
 {
-    private int _order = -1;
-
     /// <summary>
     ///     Initializes a new ExcelColumnAttribute.
     /// </summary>
@@ -34,26 +32,18 @@ public sealed class ColumnAttribute : Attribute
     /// <summary>
     ///     Initializes a new ExcelColumnAttribute with the specified column name.
     /// </summary>
-    /// <param name="name">The name of the column in the Excel sheet.</param>
+    /// <param name="name">The column header (or name) as displayed in the spreadsheet.</param>
     public ColumnAttribute(string name)
     {
         Name = name;
     }
 
     /// <summary>Sets the name of the column in the Excel sheet.</summary>
-    public string? Name { get; private set; }
+    public string? Name { get; }
 
     /// <summary>Gets or sets the format of a numeric cell.</summary>
     public string? NumericFormat { get; set; }
 
     /// <summary>Gets or sets the order of the column in the Excel sheet.</summary>
-    public int Order
-    {
-        get => _order;
-        set
-        {
-            if (value < 0) throw new SpreadsheetException("Order must be greater than zero.");
-            _order = value;
-        }
-    }
+    public int Order { get; set; }
 }

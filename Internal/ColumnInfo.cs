@@ -12,6 +12,7 @@
 // <https://www.gnu.org/licenses/>.
 
 using System.Diagnostics;
+using System.Reflection;
 using NPOI.SS.UserModel;
 
 namespace SpreadsheetHelper.Internal;
@@ -20,46 +21,29 @@ namespace SpreadsheetHelper.Internal;
 ///     Represents a column in the Excel sheet, containing property name, column name, and order.
 /// </summary>
 [DebuggerDisplay("{ColumnName}")]
-internal class ColumnInfo
+internal struct ColumnInfo
 {
     /// <summary>
-    ///     Initializes a new ExcelColumn with the property name as the column name and default order.
+    ///     Gets the name of the column in the Excel sheet.
     /// </summary>
-    /// <param name="propertyName">The name of the property.</param>
-    public ColumnInfo(string propertyName)
-    {
-        PropertyName = propertyName;
-        ColumnName = propertyName;
-        Order = -1;
-    }
+    public required string ColumnName { get; init; }
+    
+    /// <summary>
+    ///     Identifies the type from the mapped object.
+    /// </summary>
+    internal PropertyInfo Property { get; init; }
 
     /// <summary>
-    ///     Initializes a new ExcelColumn with the specified property name, column name, and order.
+    ///     Gets the order of the column in the Excel sheet.
     /// </summary>
-    /// <param name="propertyName">The name of the property.</param>
-    /// <param name="columnName">The name of the column in the Excel sheet.</param>
-    /// <param name="order">The order of the column in the Excel sheet.</param>
-    public ColumnInfo(string propertyName, string? columnName, int order = -1)
-    {
-        PropertyName = propertyName;
-        ColumnName = columnName ?? propertyName;
-        Order = order;
-    }
-
-    /// <summary>Gets the name of the property.</summary>
-    public string PropertyName { get; }
-
-    /// <summary>Gets the name of the column in the Excel sheet.</summary>
-    public string ColumnName { get; }
-
-    /// <summary>Gets the order of the column in the Excel sheet.</summary>
-    public int Order { get; internal set; }
+    public required int Order { get; init; }
 
     /// <summary>
-    ///     Defines the visual formatting and style properties of an Excel cell, including font, alignment, borders, fill,
-    ///     and data format.
+    ///     Defines the visual formatting and style properties of an Excel cell, including font, alignment, borders, fill, and
+    ///     data format.
     /// </summary>
-    public string? NumericFormat { get; internal set; }
+    // TODO: We need to use just this and get rid of StyleConfiguration and ResolvedStyle. If we want to build in styles then work on that in the next major version. Implement it in the Spreadsheet<TRow>.Rows and/or Spreadsheet<TRow>.SetRecord
+    public string? NumericFormat { get; init; }
 
     /// <summary>
     ///     An action to configure the cell style.
