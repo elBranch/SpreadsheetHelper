@@ -69,11 +69,29 @@ namespace SpreadsheetHelper.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The file is already open in another application..
+        /// </summary>
+        internal static string FileAlreadyOpen {
+            get {
+                return ResourceManager.GetString("FileAlreadyOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid cast of value &apos;{0}&apos; to property &apos;{1}&apos; with type of &apos;{2}&apos;..
         /// </summary>
         internal static string InvalidCast {
             get {
                 return ResourceManager.GetString("InvalidCast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No spreadsheet with the name &apos;{0}&apos; exists in this workbook..
+        /// </summary>
+        internal static string SpreadsheetNotFound {
+            get {
+                return ResourceManager.GetString("SpreadsheetNotFound", resourceCulture);
             }
         }
         

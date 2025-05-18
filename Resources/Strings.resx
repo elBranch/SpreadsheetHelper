@@ -27,4 +27,10 @@
     <data name="UnsupportedWorkbookType" xml:space="preserve">
         <value>Unsupported workbook type.</value>
     </data>
+    <data name="SpreadsheetNotFound" xml:space="preserve">
+        <value>No spreadsheet with the name '{0}' exists in this workbook.</value>
+    </data>
+    <data name="FileAlreadyOpen" xml:space="preserve">
+        <value>The file is already open in another application.</value>
+    </data>
 </root>

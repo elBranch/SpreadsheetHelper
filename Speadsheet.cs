@@ -90,6 +90,7 @@ public class Spreadsheet<TEntity> : IDisposable where TEntity : new()
         _hasHeaderRow = hasHeaderRow;
 
         Sheet = Workbook.GetSheet(sheetName);
+        if (Sheet is null) throw new SpreadsheetException(ResMan.Format("SpreadsheetNotFound", sheetName));
 
         if (filePath is null)
             _filePath = workbook switch
@@ -165,7 +166,7 @@ public class Spreadsheet<TEntity> : IDisposable where TEntity : new()
     private static ColumnInfo[] BuildColumns()
     {
         // Retrieve all public properties of the TEntity type.
-        var properties = typeof(TEntity).GetProperties(BindingFlags.Public);
+        var properties = typeof(TEntity).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
         // Initialize an array to hold column definitions for each property.
         var columns = new ColumnInfo[properties.Length];
